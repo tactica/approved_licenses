@@ -1,0 +1,113 @@
+---
+- - :permit
+  - MIT
+  - :who: Vadim Kononov
+    :why: Very permissive, allows for commercial use, modification, and distribution. No requirement to make your source code public.
+- - :permit
+  - MIT-0
+  - :who: Vadim Kononov
+    :why: Very permissive, allows for commercial use, modification, and distribution. No requirement to make your source code public.
+- - :permit
+  - ISC
+  - :who: Vadim Kononov
+    :why: Similar to MIT in terms of permissions. Allows commercial use without requiring source code disclosure.
+- - :permit
+  - Apache 2.0
+  - :who: Vadim Kononov
+    :why: Permissive, allows commercial use, but it requires changes to the code to be documented. It does not require you to make your entire codebase public.
+- - :permit
+  - Simplified BSD
+  - :who: Vadim Kononov
+    :why: Permissive and allow commercial use without requiring source code disclosure.
+- - :permit
+  - New BSD
+  - :who: Vadim Kononov
+    :why: Permissive and allow commercial use without requiring source code disclosure.
+- - :permit
+  - BSD-3-Clause
+  - :who: Vadim Kononov
+    :why: Permissive and allow commercial use without requiring source code disclosure.
+- - :permit
+  - ruby
+  - :who: Vadim Kononov
+    :why: Permissive, allowing commercial use and distribution without requiring the source code to be made public.
+- - :permit
+  - BSD
+  - :who: Vadim Kononov
+    :why: Permissive and allow commercial use without requiring source code disclosure.
+- - :permit
+  - Python-2.0
+  - :who: Vadim Kononov
+    :why: Permissive, allowing commercial use and distribution without requiring the source code to be made public.
+- - :permit
+  - Public Domain
+  - :who: Vadim Kononov
+    :why: These licenses/declarations allow you to do pretty much anything with the code, including commercial use, without any requirement to make your source code available.
+- - :permit
+  - CC-BY-4.0
+  - :who: Vadim Kononov
+    :why: Creative Commons licenses that are permissive but require attribution. They don't require you to disclose source code and are suitable for commercial use.
+- - :permit
+  - Brakeman Public Use License
+  - :who: Vadim Kononov
+    :why: Permissive for commercial use and does not require the disclosure of derivative code, making it suitable for commercial applications without imposing open-source obligations.
+- - :permit
+  - CC0-1.0
+  - :who: Vadim Kononov
+    :why: Creative Commons licenses that are permissive but require attribution. They don't require you to disclose source code and are suitable for commercial use.
+- - :permit
+  - BSD Zero Clause License
+  - :who: Vadim Kononov
+    :why: Permissive and allow commercial use without requiring source code disclosure.
+- - :permit
+  - BSD*
+  - :who: Vadim Kononov
+    :why: Permissive and allow commercial use without requiring source code disclosure.
+- - :permit
+  - MIT*
+  - :who: Vadim Kononov
+    :why: Very permissive, allows for commercial use, modification, and distribution. No requirement to make your source code public.
+- - :permit
+  - (CC-BY-4.0 AND OFL-1.1 AND MIT)
+  - :who: Vadim Kononov
+    :why: Combinations of permissive licenses. They allow commercial use and do not inherently require you to make your source code public.
+- - :permit
+  - MIT AND (BSD-2-Clause OR GPL-2.0-or-later)
+  - :who: Vadim Kononov
+    :why: Combinations of permissive licenses. They allow commercial use and do not inherently require you to make your source code public.
+- - :permit
+  - (MIT AND Zlib)
+  - :who: Vadim Kononov
+    :why: Combinations of permissive licenses. They allow commercial use and do not inherently require you to make your source code public.
+- - :permit
+  - CC-BY-3.0
+  - :who: Vadim Kononov
+    :why: Creative Commons licenses that are permissive but require attribution. They don't require you to disclose source code and are suitable for commercial use.
+- - :permit
+  - Unlicense
+  - :who: Vadim Kononov
+    :why: These licenses/declarations allow you to do pretty much anything with the code, including commercial use, without any requirement to make your source code available.
+- - :permit
+  - WTFPL
+  - :who: Vadim Kononov
+    :why: These licenses/declarations allow you to do pretty much anything with the code, including commercial use, without any requirement to make your source code available.
+- - :permit
+  - LGPL-2.1
+  - :who: Vadim Kononov
+    :why: The Lesser General Public License is a more permissively copyleft license compared to the GPL. It allows you to link to libraries without making your own source code GPL-licensed, but if you modify the LGPL-licensed library itself, those modifications must be released under the LGPL. It's suitable for commercial applications, especially in non-commercial contexts as noted, but with some considerations regarding library modification and distribution.
+- - :approve
+  - bundler-audit
+  - :who: Vadim Kononov
+    :why: Although licensed GPL-3.0+, this package isn't part of the source code and is used exclusively for security vulnerability detection.
+- - :permit
+  - Mozilla Public License 2.0
+  - :who: Vadim Kononov
+    :why: Weak copyleft license requiring modified files to be disclosed under MPL, but allows proprietary code combination without affecting its license.
+- - :permit
+  - BlueOak-1.0.0
+  - :who: Vadim Kononov
+    :why: Permissive, modern, and user-friendly, promoting use and distribution without requiring source code disclosure, making it very suitable for commercial applications.
+- - :approve
+  - escape
+  - :who: Vadim Kononov
+    :why: This package uses an unnamed license that allows for both open-source use and commercialization without requiring public disclosure of your code, but restricts endorsement using the author's name without permission.
