@@ -95,6 +95,10 @@
   - LGPL-2.1
   - :who: Vadim Kononov
     :why: The Lesser General Public License is a more permissively copyleft license compared to the GPL. It allows you to link to libraries without making your own source code GPL-licensed, but if you modify the LGPL-licensed library itself, those modifications must be released under the LGPL. It's suitable for commercial applications, especially in non-commercial contexts as noted, but with some considerations regarding library modification and distribution.
+- - :permit
+  - 'public domain'
+  - :who: Vadim Kononov
+    :why: These licenses/declarations allow you to do pretty much anything with the code, including commercial use, without any requirement to make your source code available.
 - - :approve
   - bundler-audit
   - :who: Vadim Kononov
