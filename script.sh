@@ -4,17 +4,17 @@
 
 APPROVED_LICENSES_URL="https://raw.githubusercontent.com/tactica/approved_licenses/master/list.yml?$(date +%s)"
 
-# Halt on any error (error propagation) and use pipefail to catch errors in pipes
+# Halt on any error and use pipefail to catch errors in pipes
 set -eo pipefail
 
 export TERM=xterm
 
-# Define colours
+# Define colors
 RESET_COLOR='\033[0m'
 HIGHLIGHT_COLOR='\033[0;35m'
 SUCCESS_COLOR='\033[0;32m'
 ERROR_COLOR='\033[0;31m'
-REQUIRED_COMMANDS=("gem" "curl" "awk" "grep")
+REQUIRED_COMMANDS=("gem" "curl" "awk" "grep" "bundle")
 
 # Function to print usage
 print_usage() {
@@ -45,7 +45,7 @@ done
 
 # Check for required commands
 for cmd in "${REQUIRED_COMMANDS[@]}"; do
-  if ! command -v $cmd &> /dev/null; then
+  if ! command -v "$cmd" &> /dev/null; then
     echo -e "${ERROR_COLOR}Error: $cmd is required but not installed. Exiting...${RESET_COLOR}"
     exit 1
   fi
@@ -54,25 +54,36 @@ done
 # Clear the screen
 clear
 
-# Define a variable to check if a Gemfile exists in the current directory
-GEMFILE_EXISTS=-1
-if [ -f "Gemfile" ]; then
+# Determine if a Gemfile exists
+if [[ -f "Gemfile" ]]; then
+  GEMFILE_EXISTS=1
+else
   GEMFILE_EXISTS=0
 fi
 
-# Install license_finder only if a Gemfile exists in the current directory
-if [ "$GEMFILE_EXISTS" -ne 0 ]; then
-  if ! gem list -i license_finder > /dev/null 2>&1; then
-    echo -e "${HIGHLIGHT_COLOR}Installing license_finder gem...${RESET_COLOR}"
-    gem install license_finder --no-document || { echo -e "${ERROR_COLOR}Failed to install license_finder. Exiting...${RESET_COLOR}"; exit 1; }
-  fi
+# Ensure Bundler is installed
+if ! gem list -i bundler > /dev/null 2>&1; then
+  echo -e "${HIGHLIGHT_COLOR}Installing Bundler...${RESET_COLOR}"
+  gem install bundler --no-document
+fi
+
+# If Gemfile exists, install missing gems from it
+if [[ $GEMFILE_EXISTS -eq 1 ]]; then
+  echo -e "${HIGHLIGHT_COLOR}Installing project dependencies from Gemfile...${RESET_COLOR}"
+  bundle install || { echo -e "${ERROR_COLOR}Failed to install project dependencies. Exiting...${RESET_COLOR}"; exit 1; }
+fi
+
+# Install license_finder if not already installed globally
+if ! gem list -i license_finder > /dev/null 2>&1; then
+  echo -e "${HIGHLIGHT_COLOR}Installing license_finder gem...${RESET_COLOR}"
+  gem install license_finder --no-document || { echo -e "${ERROR_COLOR}Failed to install license_finder. Exiting...${RESET_COLOR}"; exit 1; }
 fi
 
 # Define a temporary directory for the licenses list
 TEMP_DIR=$(mktemp -d)
 LICENSE_LIST_PATH="${TEMP_DIR}/list.yml"
 
-# Ensure the temporary directory and file are removed on script exit or error
+# Cleanup temporary directory on exit (unless --keep-temp is set)
 trap_cleanup() {
   if [[ $KEEP_TEMP -eq 0 ]]; then
     rm -rf "${TEMP_DIR}"
@@ -89,15 +100,17 @@ if ! curl -sSL -o "${LICENSE_LIST_PATH}" "${APPROVED_LICENSES_URL}"; then
   exit 1
 fi
 
-# Check for license_finder success and adjust command based on Bundler usage
+# Check project dependencies for used licenses
 echo -e "${HIGHLIGHT_COLOR}Checking project dependencies for used licenses...${RESET_COLOR}"
 # Temporarily disable 'exit on error'
 set +e
 
-# Adjust the license_finder command based on whether a Gemfile is present
-if [ $GEMFILE_EXISTS -eq 0 ]; then
+# Determine whether to run license_finder with bundle exec:
+if [[ $GEMFILE_EXISTS -eq 1 && $(grep -q "license_finder" Gemfile; echo $?) -eq 0 ]]; then
+  # If the Gemfile explicitly includes license_finder, use bundle exec.
   OUTPUT=$(bundle exec license_finder --decisions-file="${LICENSE_LIST_PATH}")
 else
+  # Otherwise, use the globally installed license_finder.
   OUTPUT=$(license_finder --decisions-file="${LICENSE_LIST_PATH}")
 fi
 
@@ -105,13 +118,13 @@ LICENSE_FINDER_EXIT_CODE=$?
 # Re-enable 'exit on error'
 set -e
 
-# Check for license_finder success
+# Check for license_finder success and output results
 if [[ $LICENSE_FINDER_EXIT_CODE -eq 0 ]]; then
   echo -e "${SUCCESS_COLOR}SUCCESS: Project uses only approved licenses.${RESET_COLOR}"
 else
   echo "$OUTPUT"
   echo -e "${HIGHLIGHT_COLOR}Generating a summary of unapproved licenses and counts...${RESET_COLOR}"
-  echo "$OUTPUT" | rev | cut -d, -f1 | rev | grep -i "^ " |sort | uniq -c
+  echo "$OUTPUT" | rev | cut -d, -f1 | rev | grep -i "^ " | sort | uniq -c
   echo -e "${ERROR_COLOR}ERROR: Project uses dependencies with unapproved licenses.${RESET_COLOR}"
   exit 1
 fi
